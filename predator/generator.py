@@ -15,7 +15,9 @@ from .utils import LineByLineTextDataset, BlockTextDataset
 
 
 class Generator:
-    def __init__(self, texts, labels, val_texts, device="cpu", model_name_or_path="distilgpt2"):
+    def __init__(
+        self, texts, labels, val_texts, device="cpu", model_name_or_path="distilgpt2"
+    ):
         self.device = torch.device(device)
         self.tokenizer = AutoTokenizer.from_pretrained(model_name_or_path)
         self.tokenizer.pad_token = self.tokenizer.eos_token
@@ -98,7 +100,11 @@ class Generator:
         repetition_penalty=1.0,
         num_return_sequences=4,
     ):
-        max_length_input = self.config.max_length if self.avg_length > self.config.max_length else self.config.max_length - self.avg_length
+        max_length_input = (
+            self.config.max_length
+            if self.avg_length > self.config.max_length
+            else self.config.max_length - self.avg_length
+        )
         input_ids = self.tokenizer.encode(
             input_text,
             max_length=max_length_input,
@@ -106,7 +112,9 @@ class Generator:
             return_tensors="pt",
         ).to(self.device)
         min_length = input_ids.shape[1] + 6
-        max_length_output = min(input_ids.shape[1] + (self.avg_length), self.config.max_length)
+        max_length_output = min(
+            input_ids.shape[1] + (self.avg_length), self.config.max_length
+        )
 
         output = self.model.generate(
             input_ids=input_ids,

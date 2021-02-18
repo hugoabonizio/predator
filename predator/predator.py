@@ -7,7 +7,16 @@ from .filter import Filter
 
 
 class Predator:
-    def __init__(self, df_train, df_val, device, num_majority_classes=0, path=None, generator_kwargs={}, filter_kwargs={}):
+    def __init__(
+        self,
+        df_train,
+        df_val,
+        device,
+        num_majority_classes=0,
+        path=None,
+        generator_kwargs={},
+        filter_kwargs={},
+    ):
         self.df_train = df_train.copy()
         self.df_val = df_val
         self.num_majority_classes = num_majority_classes
@@ -93,15 +102,15 @@ class Predator:
 
         classes_to_generate = set(self.df_train["label"].tolist())
         if augment_ratio == 1.0:
-          classes_to_generate -= {majority_class}
+            classes_to_generate -= {majority_class}
 
         samples_to_create = target_size * len(classes_to_generate) - len(
             self.df_train[self.df_train["label"] != majority_class]
         )
 
         generated_samples = {
-          c: self.df_train.query(f"label == '{c}'")['text'].tolist()
-          for c in classes_to_generate
+            c: self.df_train.query(f"label == '{c}'")["text"].tolist()
+            for c in classes_to_generate
         }
 
         i = 0

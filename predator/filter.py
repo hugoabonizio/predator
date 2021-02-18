@@ -107,7 +107,8 @@ class Filter:
         }
 
     def select(self, texts):
-        if len(texts) == 0: return []
+        if len(texts) == 0:
+            return []
 
         if self.threshold_min is None or self.threshold_max is None:
             self._compute_thresholds()
@@ -187,7 +188,6 @@ class Filter:
 
         self.threshold_min = 0.7  # torch.tensor(confidences).mean().item()
         self.threshold_max = 1.0  # torch.tensor(confidences).max().item()
-
 
 
 class _FilterTrainer(Trainer):
